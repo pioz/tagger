@@ -1,0 +1,21 @@
+TAGGER
+======
+
+Add ID3 tag 'artist' and 'title' on mp3 file using filename.
+
+Usage: tagger [<options>] <filename> ...
+
+Options:
+    -a, --album ALBUM                Set album for all files
+    -s, --separator STRING           Set separator string for Artist/Title, default " - "
+    -v, --version                    Print version
+    -h, --help                       Show this help message
+
+Example:
+
+tagger 'ACDC - Back in black'
+
+=> Remove all ID3 tag
+=> Add tag artist as 'ACDC'
+=> Add tag title as 'Back in black'
+(Split the filename with default separator ' - ', see option -s)

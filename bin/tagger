@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+$APP_PATH = File.expand_path("#{File.dirname(__FILE__)}/..")
+
+require 'optparse'
+require 'cocaine'
+require "#{$APP_PATH}/lib/tagger/version"
+
+options = { :s => ' - ' }
+parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: tagger [<options>] <filename> ...'
+  opts.separator ''
+  opts.separator 'Options:'
+  opts.on('-a', '--album ALBUM', 'Set album for all files') { |a| options[:a] = a }
+  opts.on('-s', '--separator STRING', 'Set separator string for Artist/Title, default " - "') { |s| options[:s] = s }
+  opts.on_tail('-v', '--version', 'Print version') { puts Tagger::VERSION; exit }
+  opts.on_tail('-h', '--help', 'Show this help message') { puts opts; exit }
+end
+begin
+  parser.parse!
+rescue OptionParser::InvalidOption
+  puts parser.help; exit
+end
+
+def is_mp3?(file)
+  out = Cocaine::CommandLine.new('file', "--mime -b '#{file}'").run
+  out.include?('audio/mpeg')
+end
+
+def tagga(file, separator, album = nil)
+  begin
+    if is_mp3?(file)
+      artist, title = File.basename(file, '.mp3').split(separator)
+      remove_all = Cocaine::CommandLine.new('eyeD3', "--remove-all '#{file}'")
+      perform = Cocaine::CommandLine.new('eyeD3', "-t '#{title}' -a '#{artist}' #{album ? "-A '#{album}'" : ''} '#{file}'")
+      remove_all.run
+      puts perform.run
+    else
+      puts "'#{file}' is not valid MP3 file."
+    end
+  rescue Cocaine::CommandNotFoundError => e
+    puts e; exit
+  end
+end
+
+ARGV.each do |file|
+  if File.directory?(file)
+    Dir["#{file}/*"].each do |file|
+      tagga(file, options[:s], options[:a])
+    end
+  else
+    tagga(file, options[:s], options[:a])
+  end
+end
