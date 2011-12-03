@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ['enrico@megiston.it']
   s.homepage    = ''
   s.summary     = %q{Add ID3 tag to a mp3 file using filename}
-  s.description = %q{Add ID3 tag to a mp3 file using filename.}
+  s.description = %q{Add ID3 tag 'artist' and 'title' on mp3 file using filename.}
 
   s.rubyforge_project = 'tagger'
 

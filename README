@@ -11,11 +11,15 @@ Options:
     -v, --version                    Print version
     -h, --help                       Show this help message
 
-Example:
 
+EXAMPLE:
 tagger 'ACDC - Back in black'
 
 => Remove all ID3 tag
 => Add tag artist as 'ACDC'
 => Add tag title as 'Back in black'
 (Split the filename with default separator ' - ', see option -s)
+
+
+REQUIREMENTS:
+ * eyeD3 program: http://eyed3.nicfit.net/
