@@ -13,7 +13,7 @@ Options:
 
 
 EXAMPLE:
-tagger 'ACDC - Back in black'
+tagger 'ACDC - Back in black.mp3'
 
 => Remove all ID3 tag
 => Add tag artist as 'ACDC'
